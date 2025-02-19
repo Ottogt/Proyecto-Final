@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cotizador de Seguros - TK-U</title>
+</head>
+<body>
+
+    <script>
+        function calcularCotizacion() {
+            // Mostrar el título en la alerta
+            alert("Cotizador de Seguros - TK-U");
+
+            // Capturamos los datos del usuario usando prompt
+            var edadAsegurado = parseInt(prompt("Ingresa la edad del asegurado:"));
+            
+            // Validar si el asegurado es mayor de edad
+            if (edadAsegurado < 18) {
+                alert("El asegurado debe ser mayor de edad.");
+                return;
+            }
+
+            // Preguntar si está casado (asegurarse de que la respuesta es sí o no, sin acentos)
+            var estadoCivil = prompt("¿Está casado? (si/no)").toUpperCase();
+            var edadEsposo = 0;
+            if (estadoCivil === "SI") {
+                // Si es casado, preguntar por la edad del cónyuge
+                edadEsposo = parseInt(prompt("Ingresa la edad del esposo/a:"));
+            }
+
+            // Preguntar si tiene hijos
+            var tieneHijos = prompt("¿Tiene hijos? (si/no)").toUpperCase();
+            var hijos = 0;
+            if (tieneHijos === "SI") {
+                // Si tiene hijos, preguntar por la cantidad
+                hijos = parseInt(prompt("¿Cuántos hijos tiene?"));
+            }
+
+            var precioBase = 2000; // Precio base
+
+            // Calcular el recargo por edad del asegurado
+            var recargoAsegurado = 0;
+            if (edadAsegurado >= 18 && edadAsegurado <= 24) {
+                recargoAsegurado = 0.10 * precioBase;
+            } else if (edadAsegurado >= 25 && edadAsegurado <= 49) {
+                recargoAsegurado = 0.20 * precioBase;
+            } else if (edadAsegurado >= 50) {
+                recargoAsegurado = 0.30 * precioBase;
+            }
+
+            // Calcular el recargo por edad del esposo/a si está casado
+            var recargoEsposo = 0;
+            if (estadoCivil === "SI" && edadEsposo >= 18) {
+                if (edadEsposo >= 18 && edadEsposo <= 24) {
+                    recargoEsposo = 0.10 * precioBase;
+                } else if (edadEsposo >= 25 && edadEsposo <= 49) {
+                    recargoEsposo = 0.20 * precioBase;
+                } else if (edadEsposo >= 50) {
+                    recargoEsposo = 0.30 * precioBase;
+                }
+            }
+
+            // Calcular el recargo por hijos
+            var recargoHijos = 0.20 * precioBase * hijos;
+
+            // Calcular el precio total
+            var precioTotal = precioBase + recargoAsegurado + recargoEsposo + recargoHijos;
+
+            // Mostrar el resultado usando alert
+            var mensaje = "Cotizador de Seguros - TK-U\n\n" +
+                          "Precio Base: Q" + precioBase + "\n" +
+                          "Recargo por asegurado (Edad: " + edadAsegurado + "): Q" + recargoAsegurado + "\n";
+            if (estadoCivil === "SI") {
+                mensaje += "Recargo por esposo/a (Edad: " + edadEsposo + "): Q" + recargoEsposo + "\n";
+            }
+            mensaje += "Recargo por " + hijos + " hijo(s): Q" + recargoHijos + "\n" +
+                       "Precio Total: Q" + precioTotal;
+
+            alert(mensaje);
+
+            // Preguntar si desea salir o hacer otra cotización
+            var deseaSalir = prompt("¿Deseas salir? (si/no)").toUpperCase();
+
+            if (deseaSalir === "SI") {
+                alert("Gracias por usar el Cotizador de Seguros - TK-U. ¡Hasta luego!");
+            } else if (deseaSalir === "NO") {
+                calcularCotizacion(); // Reiniciar la cotización
+            } else {
+                alert("Por favor, responde con 'si' o 'no'.");
+                calcularCotizacion(); // Volver a preguntar si desea salir
+            }
+        }
+
+        // Iniciar el cálculo cuando la página se carga
+        calcularCotizacion();
+    </script>
+
+</body>
+</html>
